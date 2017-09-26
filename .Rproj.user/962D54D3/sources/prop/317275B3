@@ -1,6 +1,7 @@
 {
-    "cursorPosition" : "266,0",
+    "cursorPosition" : "72,3",
+    "ignored_words" : "dataset,sbp,dbp,chol,behpat,ncigs,dibpat,chd,typechd,myocardial,perctoris,arcus,Arcus,senilis,bmi\n",
     "last_setup_crc32" : "BB9A3351bb338d19",
-    "scrollLine" : "244",
+    "scrollLine" : "53",
     "tempName" : "Untitled1"
 }

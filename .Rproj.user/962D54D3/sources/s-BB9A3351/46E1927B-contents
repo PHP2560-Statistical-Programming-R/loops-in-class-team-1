@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-In this project we will consider loops and basic functions. To begin we will work on using loops to simulate a famous dice gam: Yahtzee. 
+In this project we will consider loops and basic functions. To begin we will work on using loops to simulate a famous dice game: Yahtzee. 
 
 
 
