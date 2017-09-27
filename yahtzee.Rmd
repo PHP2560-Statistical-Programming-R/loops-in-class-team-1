@@ -129,13 +129,12 @@ As you can see, these would all fulfill the first and third conditions proposed 
 ```
 x <- bubble_sort(sample(1:6, size=5, replace=T))
 
-if (x[1]=x[5]){
+if (x[1]==x[5]){
   hand="Yahtzee"
-} else if (x[1]=x[4] | x[2]=x[5]) {
+} else if (x[1]==x[4] | x[2]==x[5]) {
     hand="4ofKind"
 } 
 
-...
 
  } else 
  hand="Chance"
