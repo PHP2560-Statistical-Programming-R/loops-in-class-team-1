@@ -127,15 +127,22 @@ These would all be correctly identified.  But what about:
 As you can see, these would all fulfill the first and third conditions proposed above, but they should be classified as Full House.  Therefore  we also need to check for a Full House in these cases.  The following identification routine checks for these types of Hands. At each stage, we have to be very careful that all possibilities are accounted for.
 
 ```{r}
-x <- bubblesort(sample(1:6, size=5, replace=T))
-x <- c(1,1,1,5,5)
+x <- bubblesort(sample(1:6, size=5, replace=T))              #1. yahtzee > 4ofKind > large straight > full house > small straight > 3ofKind > chance 
+x <- c(2,3,4,5,5)
 if (x[1]==x[5]){
   hand="Yahtzee"
+  
 } else if (x[1]==x[4] | x[2]==x[5]) {
     hand="4ofKind"
+}else if (x[5]== x[4]+1 & x[4]==x[3]+1 & x[3]==x[2]+1 & x[2]==x[1+1]) {
+  hand = "Large Straight"    # if(x[1]==1 & sum(x)==15 | x[1]==2 & sum(x)==17)
+  
 } else if (x[1]==x[3] & x[4]==x[5] | x[3]==x[5] & x[1] == x[2]){
   hand= "Full House"
 
+
+}else if (x[5]== x[4]+1 & x[4]==x[3]+1 & x[3]==x[2]+1 |  x[4]==x[3]+1 & x[3]==x[2]+1 & x[2]==x[1+1]) {
+  hand = "small Straight"
 
 } else if (x[1]==x[3]| x[2]==x[4] | x[3]==x[5]){
   hand="3ofKind"
@@ -156,7 +163,7 @@ Put this all together and simulate this game 100,000 times and check your probab
 --------------------------------
 Hand              Probability
 ----------------- --------------
-Yahtzee           .0008
+Yahtzee           .0008    
 
 Four of a Kind    .0193
 
