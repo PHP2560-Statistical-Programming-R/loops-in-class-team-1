@@ -186,26 +186,19 @@ The above code lays this out for Yahtzee and 4 of a kind. Find statements that w
 
 ```{r}
 for (i in 1:100000){
-x <- bubblesort(sample(1:6, size=5, replace=T))              #1. yahtzee > 4ofKind > large straight > full house > small straight > 3ofKind > chance 
-
+x <- bubblesort(sample(1:6, size=5, replace=T))              
 if (x[1]==x[5]){
   hand[i]="Yahtzee"
-  
 } else if (x[1]==x[4] | x[2]==x[5]) {
     hand[i]="4ofKind"
 }else if (x[5]== x[4]+1 & x[4]==x[3]+1 & x[3]==x[2]+1 & x[2]==x[1+1]) {
   hand[i] = "Large Straight"    # if(x[1]==1 & sum(x)==15 | x[1]==2 & sum(x)==17)
-  
 } else if (x[1]==x[3] & x[4]==x[5] | x[3]==x[5] & x[1] == x[2]){
   hand[i]= "Full House"
-
-
-}else if (x[5]== x[4]+1 & x[4]==x[3]+1 & x[3]==x[2]+1 |  x[4]==x[3]+1 & x[3]==x[2]+1 & x[2]==x[1+1]) {
+}else if (x[5]== x[4]+1 & x[4]==x[3]+1 & x[3]==x[2]+1 |  x[4]==x[3]+1 & x[3]==x[2]+1 & x[2]==x[1]+1) {
   hand[i] = "small Straight"
-
 } else if (x[1]==x[3]| x[2]==x[4] | x[3]==x[5]){
   hand[i]="3ofKind"
-
  } else 
  hand[i]="Chance" }
  table(hand) / 100000 
