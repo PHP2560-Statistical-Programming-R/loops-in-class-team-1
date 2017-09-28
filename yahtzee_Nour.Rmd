@@ -72,21 +72,42 @@ We will need to sort this. The following function is called a *Bubble Sort*. Com
 
 ```
 bubble_sort = function(vec) {
-    no_passes = 0
-    while(1) {
-        no_swaps = 0
-        for (j in 1 : (length(vec) - 1 - no_passes)) {
-            if (vec[j] > vec[j + 1]) {
-                s = vec[j]
-                vec[j] = vec[j+1]
-                vec[j+1] = s
-                no_swaps = no_swaps + 1
+    no_passes = 0        # set counter 
+    while(1) {          
+        no_swaps = 0     # set counter for the number of columes to break the loop when it ends counting the colums. 
+        for (j in 1 : (length(vec) - 1 - no_passes)) {     # locate the first integer in the range of vector length
+            if (vec[j] > vec[j + 1]) {                     # compare each two consecutive numbers in the row. 
+                s = vec[j]               # store the fisrt number if it passed the condition of being bigger than the next number. 
+                vec[j] = vec[j+1]                 # swap the location between the two intgers. 
+                vec[j+1] = s                      # store the next integer in the memory. 
+                no_swaps = no_swaps + 1           #  counter of swaps .   
             }
         }
-        no_passes = no_passes + 1
-        if(no_swaps == 0) break
+        no_passes = no_passes + 1                 # counter of passes
+        if(no_swaps == 0) break     # the break works when there is zero swaps happening. 
     }
     vec
+}
+bubble_sort(x[1,])
+```
+
+
+```{r}
+bubblesort <- function(x) {
+# x is initially the input vector and will be
+# modified to form the output
+if (length(x) < 2) return (x)
+# last is the last element to compare with
+for(last in length(x):2) {
+for(first in 1:(last - 1)) {
+if(x[first] > x[first + 1]) { # swap the pair
+save <- x[first]
+x[first] <- x[first + 1]
+x[first + 1] <- save
+}
+}
+}
+return (x)
 }
 ```
 
@@ -94,7 +115,12 @@ bubble_sort = function(vec) {
 
 Apply Bubble sort to each row of your matrix to sort the data. (You may wish to do this within your loop so the rows are sorted as they get added.) 
 
-
+```{r}
+for (i in 1:10) {
+ x[i,] = bubblesort(x[i,])
+  }
+x
+````
 
 ### Problem 4: Looking for Yahtzee Combinations
 
@@ -126,19 +152,30 @@ These would all be correctly identified.  But what about:
 
 As you can see, these would all fulfill the first and third conditions proposed above, but they should be classified as Full House.  Therefore  we also need to check for a Full House in these cases.  The following identification routine checks for these types of Hands. At each stage, we have to be very careful that all possibilities are accounted for.
 
-```
-x <- bubble_sort(sample(1:6, size=5, replace=T))
-
-if (x[1]=x[5]){
+```{r}
+x <- bubblesort(sample(1:6, size=5, replace=T))              #1. yahtzee > 4ofKind > large straight > full house > small straight > 3ofKind > chance 
+x <- c(2,3,4,5,5)
+if (x[1]==x[5]){
   hand="Yahtzee"
-} else if (x[1]=x[4] | x[2]=x[5]) {
+  
+} else if (x[1]==x[4] | x[2]==x[5]) {
     hand="4ofKind"
-} 
+}else if (x[5]== x[4]+1 & x[4]==x[3]+1 & x[3]==x[2]+1 & x[2]==x[1+1]) {
+  hand = "Large Straight"    # if(x[1]==1 & sum(x)==15 | x[1]==2 & sum(x)==17)
+  
+} else if (x[1]==x[3] & x[4]==x[5] | x[3]==x[5] & x[1] == x[2]){
+  hand= "Full House"
 
-...
+
+}else if (x[5]== x[4]+1 & x[4]==x[3]+1 & x[3]==x[2]+1 |  x[4]==x[3]+1 & x[3]==x[2]+1 & x[2]==x[1+1]) {
+  hand = "small Straight"
+
+} else if (x[1]==x[3]| x[2]==x[4] | x[3]==x[5]){
+  hand="3ofKind"
 
  } else 
- hand="Chance"
+ hand="Chance" 
+ hand
 ```
 
 The above code lays this out for Yahtzee and 4 of a kind. Find statements that work for the rest. Make sets of x and test them to make sure they work.
@@ -147,12 +184,39 @@ The above code lays this out for Yahtzee and 4 of a kind. Find statements that w
 
 ### Problem 5: Simulating 100,000 dice rolls
 
+```{r}
+for (i in 1:100000){
+x <- bubblesort(sample(1:6, size=5, replace=T))              #1. yahtzee > 4ofKind > large straight > full house > small straight > 3ofKind > chance 
+
+if (x[1]==x[5]){
+  hand[i]="Yahtzee"
+  
+} else if (x[1]==x[4] | x[2]==x[5]) {
+    hand[i]="4ofKind"
+}else if (x[5]== x[4]+1 & x[4]==x[3]+1 & x[3]==x[2]+1 & x[2]==x[1+1]) {
+  hand[i] = "Large Straight"    # if(x[1]==1 & sum(x)==15 | x[1]==2 & sum(x)==17)
+  
+} else if (x[1]==x[3] & x[4]==x[5] | x[3]==x[5] & x[1] == x[2]){
+  hand[i]= "Full House"
+
+
+}else if (x[5]== x[4]+1 & x[4]==x[3]+1 & x[3]==x[2]+1 |  x[4]==x[3]+1 & x[3]==x[2]+1 & x[2]==x[1+1]) {
+  hand[i] = "small Straight"
+
+} else if (x[1]==x[3]| x[2]==x[4] | x[3]==x[5]){
+  hand[i]="3ofKind"
+
+ } else 
+ hand[i]="Chance" }
+ table(hand) / 100000 
+ 
+```
 Put this all together and simulate this game 100,000 times and check your probabilities. You should get the following:
 
 --------------------------------
 Hand              Probability
 ----------------- --------------
-Yahtzee           .0008
+Yahtzee           .0008    
 
 Four of a Kind    .0193
 
