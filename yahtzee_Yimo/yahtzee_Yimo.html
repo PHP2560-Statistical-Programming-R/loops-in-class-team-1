@@ -139,7 +139,7 @@ $(document).ready(function () {
 </ul>
 <p>We begin by simulating dice rolls. For example we can simulate one roll of a die to be:</p>
 <pre class="r"><code>sample(1:6, size=1, replace=T)</code></pre>
-<pre><code>## [1] 3</code></pre>
+<pre><code>## [1] 2</code></pre>
 <div id="problem-1-dice-rolls" class="section level3">
 <h3>Problem 1: Dice Rolls</h3>
 <p>Using a loop create a matrix of 10 rolls all consisting of 5 dice in each roll.</p>
@@ -150,16 +150,16 @@ for (i in 1:10)
 }
 x</code></pre>
 <pre><code>##       [,1] [,2] [,3] [,4] [,5]
-##  [1,]    2    1    4    2    2
-##  [2,]    2    4    5    1    5
-##  [3,]    6    4    3    5    4
-##  [4,]    3    3    2    1    4
-##  [5,]    3    5    3    3    2
-##  [6,]    3    1    3    4    1
-##  [7,]    1    6    4    4    6
-##  [8,]    3    1    5    2    5
-##  [9,]    5    3    5    1    5
-## [10,]    5    4    3    5    5</code></pre>
+##  [1,]    6    4    4    5    5
+##  [2,]    3    1    4    3    6
+##  [3,]    2    6    6    1    5
+##  [4,]    2    1    1    3    3
+##  [5,]    6    4    5    6    2
+##  [6,]    1    4    6    5    4
+##  [7,]    2    6    2    2    3
+##  [8,]    4    1    6    1    3
+##  [9,]    5    5    5    5    2
+## [10,]    1    6    3    3    5</code></pre>
 </div>
 <div id="prolem-2-sorting-dice-rolls" class="section level3">
 <h3>Prolem 2: Sorting Dice Rolls</h3>
@@ -202,16 +202,16 @@ return (x)
 }
 x</code></pre>
 <pre><code>##       [,1] [,2] [,3] [,4] [,5]
-##  [1,]    1    2    2    2    4
-##  [2,]    1    2    4    5    5
-##  [3,]    3    4    4    5    6
-##  [4,]    1    2    3    3    4
-##  [5,]    2    3    3    3    5
-##  [6,]    1    1    3    3    4
-##  [7,]    1    4    4    6    6
-##  [8,]    1    2    3    5    5
-##  [9,]    1    3    5    5    5
-## [10,]    3    4    5    5    5</code></pre>
+##  [1,]    4    4    5    5    6
+##  [2,]    1    3    3    4    6
+##  [3,]    1    2    5    6    6
+##  [4,]    1    1    2    3    3
+##  [5,]    2    4    5    6    6
+##  [6,]    1    4    4    5    6
+##  [7,]    2    2    2    3    6
+##  [8,]    1    1    3    4    6
+##  [9,]    2    5    5    5    5
+## [10,]    1    3    3    5    6</code></pre>
 </div>
 <div id="problem-4-looking-for-yahtzee-combinations" class="section level3">
 <h3>Problem 4: Looking for Yahtzee Combinations</h3>
@@ -249,9 +249,9 @@ con4=function(x){
 combination=function(x){
   
 if (x[1]==x[5]){hand=&quot;Yahtzee&quot;} 
-  else if (x[1]==x[4] | x[2]==x[5]) {hand=&quot;Four of Kind&quot;}
+  else if (x[1]==x[4] | x[2]==x[5]) {hand=&quot;Four of a Kind&quot;}
   else if((x[1]==x[3] &amp; x[4]==x[5])| (x[1]==x[2] &amp; x[3]==x[5])){ hand=&quot;Full House&quot;} 
-  else if(x[1]==x[3] | x[2]==x[4] | x[3]==x[5]) {hand=&quot;Three of Kind&quot;}
+  else if(x[1]==x[3] | x[2]==x[4] | x[3]==x[5]) {hand=&quot;Three of a Kind&quot;}
   else if(con5(x)==1){hand=&quot;Large Straight&quot;}
   else if(con4(x)==1){hand=&quot;Small Straight&quot;}
        else{hand=&quot;Chance&quot;}
@@ -263,9 +263,10 @@ for(i in 1:10){
   hand[i]=combination(x[i,])
 }
 hand</code></pre>
-<pre><code>##  [1] &quot;Three of Kind&quot;  &quot;Chance&quot;         &quot;Small Straight&quot; &quot;Small Straight&quot;
-##  [5] &quot;Three of Kind&quot;  &quot;Chance&quot;         &quot;Chance&quot;         &quot;Chance&quot;        
-##  [9] &quot;Three of Kind&quot;  &quot;Three of Kind&quot;</code></pre>
+<pre><code>##  [1] &quot;Chance&quot;          &quot;Chance&quot;          &quot;Chance&quot;         
+##  [4] &quot;Chance&quot;          &quot;Chance&quot;          &quot;Chance&quot;         
+##  [7] &quot;Three of a Kind&quot; &quot;Chance&quot;          &quot;Four of a Kind&quot; 
+## [10] &quot;Chance&quot;</code></pre>
 <p>The above code lays this out for Yahtzee and 4 of a kind. Find statements that work for the rest. Make sets of x and test them to make sure they work.</p>
 </div>
 <div id="problem-5-simulating-100000-dice-rolls" class="section level3">
@@ -286,9 +287,21 @@ for(i in 1:10){
 }
 }
 
-Result=table(hand)/1000000
-Result=as.data.frame(Result)
-names(Result)=c(&quot;Hand&quot;,&quot;Probability&quot;)
+Results=table(hand)/1000000
+
+#Arrange final results
+Results=as.data.frame(Results)
+names(Results)=c(&quot;Hand&quot;,&quot;Probability&quot;)
+Results$Probability= round(Results$Probability,digits=4)
+Results$order=vector(length=7)
+order1=c(&quot;Yahtzee&quot;,&quot;Four of a Kind&quot;,&quot;Three of a Kind&quot;,&quot;Full House&quot;,&quot;Large Straight&quot;,&quot;Small Straight&quot;,&quot;Chance&quot;)
+order2=c(1,2,3,4,5,6,7)
+order=data.frame(order1,order2)
+for(i in 1:7){
+  j=1
+  while(Results[i,1]!=order[j,1])
+  {j=j+1}
+    Results[i,3]=order[j,2]}
 library(dplyr)</code></pre>
 <pre><code>## 
 ## Attaching package: 'dplyr'</code></pre>
@@ -298,17 +311,15 @@ library(dplyr)</code></pre>
 <pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>Results=arrange(Result,Probability)
-Results$Probability= round(Results$Probability,digits=4)
-Results</code></pre>
-<pre><code>##             Hand Probability
-## 1        Yahtzee      0.0008
-## 2   Four of Kind      0.0193
-## 3 Large Straight      0.0309
-## 4     Full House      0.0383
-## 5 Small Straight      0.1241
-## 6  Three of Kind      0.1540
-## 7         Chance      0.6326</code></pre>
+<pre class="r"><code>select(arrange(Results,order),Hand,Probability)</code></pre>
+<pre><code>##              Hand Probability
+## 1         Yahtzee      0.0007
+## 2  Four of a Kind      0.0195
+## 3 Three of a Kind      0.1544
+## 4      Full House      0.0385
+## 5  Large Straight      0.0309
+## 6  Small Straight      0.1237
+## 7          Chance      0.6324</code></pre>
 <p>Put this all together and simulate this game 100,000 times and check your probabilities. You should get the following:</p>
 <table style="width:44%;">
 <colgroup>

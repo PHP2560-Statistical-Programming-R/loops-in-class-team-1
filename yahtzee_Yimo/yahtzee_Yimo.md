@@ -33,7 +33,7 @@ sample(1:6, size=1, replace=T)
 ```
 
 ```
-## [1] 3
+## [1] 2
 ```
 
 
@@ -53,16 +53,16 @@ x
 
 ```
 ##       [,1] [,2] [,3] [,4] [,5]
-##  [1,]    2    1    4    2    2
-##  [2,]    2    4    5    1    5
-##  [3,]    6    4    3    5    4
-##  [4,]    3    3    2    1    4
-##  [5,]    3    5    3    3    2
-##  [6,]    3    1    3    4    1
-##  [7,]    1    6    4    4    6
-##  [8,]    3    1    5    2    5
-##  [9,]    5    3    5    1    5
-## [10,]    5    4    3    5    5
+##  [1,]    6    4    4    5    5
+##  [2,]    3    1    4    3    6
+##  [3,]    2    6    6    1    5
+##  [4,]    2    1    1    3    3
+##  [5,]    6    4    5    6    2
+##  [6,]    1    4    6    5    4
+##  [7,]    2    6    2    2    3
+##  [8,]    4    1    6    1    3
+##  [9,]    5    5    5    5    2
+## [10,]    1    6    3    3    5
 ```
 
 
@@ -118,16 +118,16 @@ x
 
 ```
 ##       [,1] [,2] [,3] [,4] [,5]
-##  [1,]    1    2    2    2    4
-##  [2,]    1    2    4    5    5
-##  [3,]    3    4    4    5    6
-##  [4,]    1    2    3    3    4
-##  [5,]    2    3    3    3    5
-##  [6,]    1    1    3    3    4
-##  [7,]    1    4    4    6    6
-##  [8,]    1    2    3    5    5
-##  [9,]    1    3    5    5    5
-## [10,]    3    4    5    5    5
+##  [1,]    4    4    5    5    6
+##  [2,]    1    3    3    4    6
+##  [3,]    1    2    5    6    6
+##  [4,]    1    1    2    3    3
+##  [5,]    2    4    5    6    6
+##  [6,]    1    4    4    5    6
+##  [7,]    2    2    2    3    6
+##  [8,]    1    1    3    4    6
+##  [9,]    2    5    5    5    5
+## [10,]    1    3    3    5    6
 ```
 
 
@@ -185,9 +185,9 @@ con4=function(x){
 combination=function(x){
   
 if (x[1]==x[5]){hand="Yahtzee"} 
-  else if (x[1]==x[4] | x[2]==x[5]) {hand="Four of Kind"}
+  else if (x[1]==x[4] | x[2]==x[5]) {hand="Four of a Kind"}
   else if((x[1]==x[3] & x[4]==x[5])| (x[1]==x[2] & x[3]==x[5])){ hand="Full House"} 
-  else if(x[1]==x[3] | x[2]==x[4] | x[3]==x[5]) {hand="Three of Kind"}
+  else if(x[1]==x[3] | x[2]==x[4] | x[3]==x[5]) {hand="Three of a Kind"}
   else if(con5(x)==1){hand="Large Straight"}
   else if(con4(x)==1){hand="Small Straight"}
        else{hand="Chance"}
@@ -202,9 +202,10 @@ hand
 ```
 
 ```
-##  [1] "Three of Kind"  "Chance"         "Small Straight" "Small Straight"
-##  [5] "Three of Kind"  "Chance"         "Chance"         "Chance"        
-##  [9] "Three of Kind"  "Three of Kind"
+##  [1] "Chance"          "Chance"          "Chance"         
+##  [4] "Chance"          "Chance"          "Chance"         
+##  [7] "Three of a Kind" "Chance"          "Four of a Kind" 
+## [10] "Chance"
 ```
 
 The above code lays this out for Yahtzee and 4 of a kind. Find statements that work for the rest. Make sets of x and test them to make sure they work.
@@ -231,9 +232,21 @@ for(i in 1:10){
 }
 }
 
-Result=table(hand)/1000000
-Result=as.data.frame(Result)
-names(Result)=c("Hand","Probability")
+Results=table(hand)/1000000
+
+#Arrange final results
+Results=as.data.frame(Results)
+names(Results)=c("Hand","Probability")
+Results$Probability= round(Results$Probability,digits=4)
+Results$order=vector(length=7)
+order1=c("Yahtzee","Four of a Kind","Three of a Kind","Full House","Large Straight","Small Straight","Chance")
+order2=c(1,2,3,4,5,6,7)
+order=data.frame(order1,order2)
+for(i in 1:7){
+  j=1
+  while(Results[i,1]!=order[j,1])
+  {j=j+1}
+    Results[i,3]=order[j,2]}
 library(dplyr)
 ```
 
@@ -255,20 +268,18 @@ library(dplyr)
 ```
 
 ```r
-Results=arrange(Result,Probability)
-Results$Probability= round(Results$Probability,digits=4)
-Results
+select(arrange(Results,order),Hand,Probability)
 ```
 
 ```
-##             Hand Probability
-## 1        Yahtzee      0.0008
-## 2   Four of Kind      0.0193
-## 3 Large Straight      0.0309
-## 4     Full House      0.0383
-## 5 Small Straight      0.1241
-## 6  Three of Kind      0.1540
-## 7         Chance      0.6326
+##              Hand Probability
+## 1         Yahtzee      0.0007
+## 2  Four of a Kind      0.0195
+## 3 Three of a Kind      0.1544
+## 4      Full House      0.0385
+## 5  Large Straight      0.0309
+## 6  Small Straight      0.1237
+## 7          Chance      0.6324
 ```
 Put this all together and simulate this game 100,000 times and check your probabilities. You should get the following:
 

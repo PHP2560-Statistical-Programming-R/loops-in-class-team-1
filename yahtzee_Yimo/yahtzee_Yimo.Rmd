@@ -155,9 +155,9 @@ con4=function(x){
 combination=function(x){
   
 if (x[1]==x[5]){hand="Yahtzee"} 
-  else if (x[1]==x[4] | x[2]==x[5]) {hand="Four of Kind"}
+  else if (x[1]==x[4] | x[2]==x[5]) {hand="Four of a Kind"}
   else if((x[1]==x[3] & x[4]==x[5])| (x[1]==x[2] & x[3]==x[5])){ hand="Full House"} 
-  else if(x[1]==x[3] | x[2]==x[4] | x[3]==x[5]) {hand="Three of Kind"}
+  else if(x[1]==x[3] | x[2]==x[4] | x[3]==x[5]) {hand="Three of a Kind"}
   else if(con5(x)==1){hand="Large Straight"}
   else if(con4(x)==1){hand="Small Straight"}
        else{hand="Chance"}
@@ -194,13 +194,24 @@ for(i in 1:10){
 }
 }
 
-Result=table(hand)/1000000
-Result=as.data.frame(Result)
-names(Result)=c("Hand","Probability")
-library(dplyr)
-Results=arrange(Result,Probability)
+Results=table(hand)/1000000
+
+#Arrange final results
+Results=as.data.frame(Results)
+names(Results)=c("Hand","Probability")
 Results$Probability= round(Results$Probability,digits=4)
-Results
+Results$order=vector(length=7)
+order1=c("Yahtzee","Four of a Kind","Three of a Kind","Full House","Large Straight","Small Straight","Chance")
+order2=c(1,2,3,4,5,6,7)
+order=data.frame(order1,order2)
+for(i in 1:7){
+  j=1
+  while(Results[i,1]!=order[j,1])
+  {j=j+1}
+    Results[i,3]=order[j,2]}
+library(dplyr)
+select(arrange(Results,order),Hand,Probability)
+
 ```
 Put this all together and simulate this game 100,000 times and check your probabilities. You should get the following:
 
