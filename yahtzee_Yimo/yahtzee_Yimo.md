@@ -33,7 +33,7 @@ sample(1:6, size=1, replace=T)
 ```
 
 ```
-## [1] 2
+## [1] 1
 ```
 
 
@@ -53,16 +53,16 @@ x
 
 ```
 ##       [,1] [,2] [,3] [,4] [,5]
-##  [1,]    6    4    4    5    5
-##  [2,]    3    1    4    3    6
-##  [3,]    2    6    6    1    5
-##  [4,]    2    1    1    3    3
-##  [5,]    6    4    5    6    2
-##  [6,]    1    4    6    5    4
-##  [7,]    2    6    2    2    3
-##  [8,]    4    1    6    1    3
-##  [9,]    5    5    5    5    2
-## [10,]    1    6    3    3    5
+##  [1,]    1    3    5    1    3
+##  [2,]    2    2    4    4    2
+##  [3,]    6    3    4    2    3
+##  [4,]    3    3    3    5    2
+##  [5,]    3    2    6    2    1
+##  [6,]    2    4    5    5    2
+##  [7,]    6    2    2    5    5
+##  [8,]    3    2    4    5    6
+##  [9,]    5    1    2    6    4
+## [10,]    3    3    3    3    2
 ```
 
 
@@ -118,16 +118,16 @@ x
 
 ```
 ##       [,1] [,2] [,3] [,4] [,5]
-##  [1,]    4    4    5    5    6
-##  [2,]    1    3    3    4    6
-##  [3,]    1    2    5    6    6
-##  [4,]    1    1    2    3    3
-##  [5,]    2    4    5    6    6
-##  [6,]    1    4    4    5    6
-##  [7,]    2    2    2    3    6
-##  [8,]    1    1    3    4    6
-##  [9,]    2    5    5    5    5
-## [10,]    1    3    3    5    6
+##  [1,]    1    1    3    3    5
+##  [2,]    2    2    2    4    4
+##  [3,]    2    3    3    4    6
+##  [4,]    2    3    3    3    5
+##  [5,]    1    2    2    3    6
+##  [6,]    2    2    4    5    5
+##  [7,]    2    2    5    5    6
+##  [8,]    2    3    4    5    6
+##  [9,]    1    2    4    5    6
+## [10,]    2    3    3    3    3
 ```
 
 
@@ -156,7 +156,7 @@ When it comes to Three of a Kind, we run into a little complication.  If we foll
 
 These would all be correctly identified.  But what about:
 ```
-    1 1 1 2 2
+    1 1 1 2 2 
     3 3 5 5 5
 ```
 
@@ -202,10 +202,10 @@ hand
 ```
 
 ```
-##  [1] "Chance"          "Chance"          "Chance"         
-##  [4] "Chance"          "Chance"          "Chance"         
-##  [7] "Three of a Kind" "Chance"          "Four of a Kind" 
-## [10] "Chance"
+##  [1] "Chance"          "Full House"      "Chance"         
+##  [4] "Three of a Kind" "Chance"          "Chance"         
+##  [7] "Chance"          "Large Straight"  "Chance"         
+## [10] "Four of a Kind"
 ```
 
 The above code lays this out for Yahtzee and 4 of a kind. Find statements that work for the rest. Make sets of x and test them to make sure they work.
@@ -274,12 +274,12 @@ select(arrange(Results,order),Hand,Probability)
 ```
 ##              Hand Probability
 ## 1         Yahtzee      0.0007
-## 2  Four of a Kind      0.0195
-## 3 Three of a Kind      0.1544
-## 4      Full House      0.0385
-## 5  Large Straight      0.0309
-## 6  Small Straight      0.1237
-## 7          Chance      0.6324
+## 2  Four of a Kind      0.0193
+## 3 Three of a Kind      0.1542
+## 4      Full House      0.0388
+## 5  Large Straight      0.0307
+## 6  Small Straight      0.1235
+## 7          Chance      0.6327
 ```
 Put this all together and simulate this game 100,000 times and check your probabilities. You should get the following:
 

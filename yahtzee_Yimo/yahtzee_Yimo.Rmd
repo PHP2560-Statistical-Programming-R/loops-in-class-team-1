@@ -127,7 +127,7 @@ When it comes to Three of a Kind, we run into a little complication.  If we foll
 
 These would all be correctly identified.  But what about:
 ```
-    1 1 1 2 2
+    1 1 1 2 2 
     3 3 5 5 5
 ```
 
