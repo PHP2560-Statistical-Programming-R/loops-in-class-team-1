@@ -149,26 +149,26 @@ The above code lays this out for Yahtzee and 4 of a kind. Find statements that w
 ```{r}
 x <- bubblesort(sample(1:6, size=5, replace=T))
 hand <- NULL
-if (x[1]==x[5]){
-  hand[i]="Yahtzee"
-} else if (x[1]==x[4] | x[2]==x[5]) {
-    hand[i]="4ofKind"
-} else if (x[1]==x[3] && x[4]==x[5]) {
-  hand[i]="fullhouse"
-} else if (x[3]==x[5] && x[1]==x[2]) {
-  hand[i]="fullhouse"
-} else if (x[1]==x[3] | x[2]==x[4] | x[3]==x[5]) {
-  hand[i]="3ofKind"
-} else if (x[5]-x[4]==1 & x[4]-x[3]==1 & x[3]-x[2]==1 & x[2]-x[1]==1){
-  hand[i]="large straight"
-} else if (length(unique(x))==4) {
-  if (unique(x)[4]-unique(x)[3]==1 & unique(x)[3]-unique(x)[2]==1 & unique(x)[2]-unique(x)[1]==1) {
-  hand[i]="small straight"}
-  else if (x[5]-x[4]==1 & x[4]-x[3]==1 & x[3]-x[2]==1 | x[4]-x[3]==1 & x[3]-x[2]==1 & x[2]-x[1]==1) {
-  hand[i]="small straight"}
-  
-} else hand[i]="chance"
+if (length(unique(x)) == 1) {
+  hand="Yahtzee"
+} else if (length(unique(x))==2) {
+  if (x[1]==x[4] || x[2]==x[5]) {
+    hand="4ofKind"
+  } else hand="fullhouse"
+  }else if (length(unique(x))==3) {
+    if (x[1]==x[3] || x[2]==x[4] || x[3]==x[5]) {
+      hand="3ofKind"
+    } else hand="chance"} else if (length(unique(x))==4) {
+      if (unique(x)[4]-unique(x)[3]==1 & unique(x)[3]-unique(x)[2]==1 & unique(x)[2]-unique(x)[1]==1) {
+        hand="small straight"
+      } else hand="chance"} else if (length(unique(x))==5 & x[5]-x[1]==4) {
+        hand="large straight"
+      } else if (x[5]-x[2]==3 || x[4]-x[1]==3) {
+        hand="small straight"} else hand="chance"
 
+
+x
+hand
 ```
 ### Problem 5: Simulating 100,000 dice rolls
 
@@ -194,40 +194,30 @@ Chance            .6326
 ```{r}
 for (i in 1:100000) {
   x <- bubblesort(sample(1:6, size=5, replace=T))
-if (x[1]==x[5]){
-  hand[i]="Yahtzee"
-} else if (x[1]==x[4] | x[2]==x[5]) {
-    hand[i]="4ofKind"
-} else if (x[1]==x[3] & x[4]==x[5]) {
-  hand[i]="fullhouse"
-} else if (x[3]==x[5] & x[1]==x[2]) {
-  hand[i]="fullhouse"
-} else if (x[1]==x[3] | x[2]==x[4] | x[3]==x[5]) {
-  hand[i]="3ofKind"
-} else if (x[5]-x[4]==1 & x[4]-x[3]==1 & x[3]-x[2]==1 & x[2]-x[1]==1){
-  hand[i]="large straight"
-} else if (length(unique(x))==4) {
-  if (unique(x)[4]-unique(x)[3]==1 & unique(x)[3]-unique(x)[2]==1 & unique(x)[2]-unique(x)[1]==1) {
-  hand[i]="small straight"}
-  else if (x[5]-x[4]==1 & x[4]-x[3]==1 & x[3]-x[2]==1 | x[4]-x[3]==1 & x[3]-x[2]==1 & x[2]-x[1]==1) {
-  hand[i]="small straight"}
-  
-} else hand[i]="chance"
-
-
-}
- table(hand) / 100000
-
-```
-
-```{r, eval=F}
-for (i in 1:100000) {
-  x <- bubblesort(sample(1:6, size=5, replace=T))
 if (length(unique(x)) == 1) {
   hand[i]="Yahtzee"
-} else if (length(unique(x))==2) {
-  if 
+} 
+  else if (length(unique(x))==2) {
+  if (x[1]==x[4] || x[2]==x[5]) {
+    hand[i]="4ofKind"
+  } else hand[i]="fullhouse"
+  }
+  else if (length(unique(x))==3) {
+    if (x[1]==x[3] || x[2]==x[4] || x[3]==x[5]) {
+      hand[i]="3ofKind"
+    } else hand[i]="chance"}
+  else if (length(unique(x))==4) {
+      if (unique(x)[4]-unique(x)[3]==1 & unique(x)[3]-unique(x)[2]==1 & unique(x)[2]-unique(x)[1]==1) {
+        hand[i]="small straight"
+      } else hand[i]="chance"}
+  else if (length(unique(x))==5 & x[5]-x[1]==4) {
+        hand[i]="large straight"
+      } 
+  else if (x[5]-x[2]==3 || x[4]-x[1]==3) {
+        hand[i]="small straight"} 
+  else hand[i]="chance"
 }
+ table(hand) / 100000
 
 ```
 ## Part II: PHP 2560 Only
